@@ -110,3 +110,22 @@ snarkjs groth16 verify verification_key.json public.json proof.json
 Dont worry, the `proof.json` and `public.json` file is cryptographically linked, so manually modifying `public.json` will give "Invalid proof" error when trying to verify it
 
 > Ideally, only the prover would hold the heavy `.zkey` and the verifier would only need the `.json` verification key (its succint, afterall. small prove & fast verification)
+
+## NOTES
+
+- in circom, user controls ALL signals. all circuit do is VERIFY based on the given constraints (the === or <==>)
+- ternary operator works but NOT inside constraints
+- division also does NOT work inside constraints
+- for those two, use "hint" operator, which is signalname <-- (operation). verify the signalname tho bc user also controls it
+- circom operates in field (modulo i guess), so theres NO negative number nor decimals, and divisions is actually modular multiplicative inverse
+
+In nested circuits (component calling another component, e.g. calling IsZero() component inside main component)
+
+- input signals are readable and writable (u provide the values to the component)
+- output signals are readable (to set the constraint and actually check the result) but not writable (to prevent tampering i guess idk, it doesnt make sense anyway)
+- intermediate signals are hidden, so are both unreadable and unwritable
+
+Additional technologies:
+
+- Semaphore for merkle-tree thingy
+- gnark for using with go

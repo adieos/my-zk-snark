@@ -1,0 +1,55 @@
+pragma circom 2.0.0;
+
+// implement own "function" altho heavily inspired by cicromlib
+template IsZero(){
+    signal input in;
+    signal output out;
+    signal inverse;
+
+    // get the inverse of input, if its zero, then assign zero instead. this way, inverse will be 0 if and only if input is also 0
+    inverse <-- in == 0 ? 0 : 1/in;
+
+    // input multiplied by its inverse will always yield 1 (-1 in this case bc its -in not in), but if input is zero, then the calc inside the parentheses will be 0. so out will be 0 (-1 + 1) if and only if input is NOT zero, and will be 1 (0 + 1) if and only if input is zero.
+    out <== (-in*inverse) + 1;
+
+    // final constraint check for robustness, since either in or out IS zero
+    in*out === 0;
+
+    // verdict for use:
+    // out == 0 IFF input is NOT zero
+    // out == 1 IFF input is zero
+}
+
+// this one is used by Multiply() and will use IsZero(). ik its inefficient but shutup i js wanna learn man
+template isNotOne() {
+    signal input x;
+    signal output res;
+
+    component isXzero = IsZero();
+
+    isXzero.in <== x-1;
+    isXzero.out === 0;
+    isXzero.out ==> res;
+}
+
+template Multiply() {
+    signal input p;
+    signal input q;
+    signal output N;
+    N <== p * q;
+
+    // prove that not p nor q is one (that'd be trivial)
+    component isPone = isNotOne();
+    component isQone = isNotOne();
+
+    isPone.x <== p;
+    isQone.x <== q;
+
+    // according to senor gemini this is redundant bc its already checked internally inside IsNotOne() anyway. me when i dont care:
+    isPone.res === 0;
+    isQone.res === 0;
+
+    // yay circuit is done!
+}
+
+component main = Multiply();

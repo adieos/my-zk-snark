@@ -1,0 +1,13 @@
+1,1,2,main.N
+2,2,2,main.p
+3,3,2,main.q
+4,-1,1,main.isPone.res
+5,-1,1,main.isPone.x
+6,-1,0,main.isPone.isXzero.out
+7,4,0,main.isPone.isXzero.in
+8,5,0,main.isPone.isXzero.inverse
+9,-1,1,main.isQone.res
+10,-1,1,main.isQone.x
+11,-1,0,main.isQone.isXzero.out
+12,6,0,main.isQone.isXzero.in
+13,7,0,main.isQone.isXzero.inverse
