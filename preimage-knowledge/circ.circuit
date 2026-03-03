@@ -1,0 +1,19 @@
+pragma circom 2.0.0;
+
+include "node_modules/circomlib/circuits/poseidon.circom";
+
+template PK() {
+    signal input preimage;
+    signal input salt; // not required, but for demo
+    signal output hash;
+
+    component hasher = Poseidon(2); // 2 = takes 2 arguments
+
+    hasher.inputs[0] <== preimage;
+    hasher.inputs[1] <== salt;
+    hasher.out ==> hash;
+
+
+}
+
+component main {public [salt]} = PK(); // makes the salt (an input signal) public
