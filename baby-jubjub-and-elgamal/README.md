@@ -107,6 +107,8 @@ Below are scripts used to help this particular circuit. Most part of the scripts
 
 ## NOTES
 
+- The resulting circuit leads to constraints larger than `2^12`, so use `14` when generating/performing ptau instead of `12`
+
 - In circuit, G should be hardcoded. For this purpose, we will use these:
   `G_x` = `5299619240641551281634865583518297030282874472190772894086521144482721001553`
   `G_y` = `16950150798460657717958625567821834550301663161624707787222815936182638968203`
